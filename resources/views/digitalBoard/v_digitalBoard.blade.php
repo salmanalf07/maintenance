@@ -180,7 +180,9 @@
                             </button>
                         </td>
                         <td class="text-center">
-                            <img src="/assets/img/icon-home.png" alt="icon home">
+                            <span onclick="toggleFullScreen()">
+                                <img src="/assets/img/icon-home.png" alt="icon home">
+                            </span>
                         </td>
                         <td>
                             <button class="card" id="listContent" data-content="OPL">
@@ -234,7 +236,33 @@
 </body>
 
 
-
+<script>
+  // Fungsi untuk mengubah mode layar penuh
+  function toggleFullScreen() {
+    var elem = document.documentElement;
+    if (!document.fullscreenElement) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+      }
+    }
+  }
+</script>
 <script>
     $(function() {
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
