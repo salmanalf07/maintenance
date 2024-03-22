@@ -133,7 +133,7 @@
                 "targets": [0, 1, 2, 3, 4], // table ke 1
             }],
             ajax: {
-                url: '{{ url("json_contentBoard") }}'
+                url: '/json_contentBoard',
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);

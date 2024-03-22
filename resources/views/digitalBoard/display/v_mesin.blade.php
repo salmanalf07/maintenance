@@ -57,7 +57,7 @@
                 "targets": [0, 1, 2, 3, 4, 5], // table ke 1
             }],
             ajax: {
-                url: '{{ url("json_mesin") }}'
+                url: '{{ secure_url("json_mesin") }}',
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);
