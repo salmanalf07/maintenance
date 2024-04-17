@@ -176,7 +176,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: '{{ url("store_contentBoard") }}',
+            url: 'store_contentBoard',
             data: fd,
             processData: false,
             contentType: false,
@@ -196,7 +196,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'select_contentBoard',
+            url: '/select_contentBoard',
             data: {
                 '_token': "{{ csrf_token() }}",
                 'id': uid,
@@ -231,7 +231,7 @@
         var fd = new FormData(form);
         $.ajax({
             type: 'POST',
-            url: 'update_contentBoard',
+            url: '/update_contentBoard',
             data: fd,
             processData: false,
             contentType: false,
@@ -252,7 +252,7 @@
 
             $.ajax({
                 type: 'DELETE',
-                url: 'delete_contentBoard/' + $(this).data('id'),
+                url: '/delete_contentBoard/' + $(this).data('id'),
                 data: {
                     '_token': "{{ csrf_token() }}",
                 },
