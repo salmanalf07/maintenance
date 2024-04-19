@@ -181,8 +181,8 @@
                     </div>
                 </div>
                 <div class="col-md-4" style="display: flex; align-items: center;">
-                    <div class="background">
-                        <h2>Digital Board Production</h2>
+                    <div class="background" style="background-color: #ff8200">
+                        <h3>DIGITAL BOARD PRODUCTION</h3>
                     </div>
                 </div>
                 <div class="col-md-2"></div>
@@ -210,7 +210,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <i>
-                        <h6 class="mt-2 mb-0 text-right" style="color: #737373;">Copyright from Budiwhy © 2024</h6>
+                        <h6 class="mt-2 mb-0 text-right" style="color: #737373;">Copyright Budiwhy 2024</h6>
                     </i>
                 </div>
             </div>
