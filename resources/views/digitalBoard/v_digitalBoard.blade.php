@@ -44,15 +44,26 @@
         .card {
             background-color: #f2f2f2;
             border-radius: 5px;
+            border-color: #ff8200 !important;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             padding: 20px;
-            width: 60%;
+            width: 16rem;
+            min-height: 8rem;
             margin: 1rem auto;
 
         }
 
         h2 {
             text-align: center;
+            font-size: 2vw !important;
+        }
+
+        h3 {
+            font-size: 1.5vw !important;
+        }
+
+        h4 {
+            font-size: 1.2vw !important;
         }
 
         p {
@@ -105,6 +116,49 @@
             cursor: pointer;
             margin-left: 1rem;
         }
+
+
+
+        @media (min-width: 768px) {
+
+            .container,
+            .container-md,
+            .container-sm {
+                max-width: 799px !important;
+            }
+
+            .col-xl-4 {
+                flex: 0 0 33.33333%;
+                max-width: 33.33333%;
+            }
+
+            .col-xl-2 {
+                flex: 0 0 16.66667%;
+                max-width: 16.66667%;
+            }
+
+            .f-rpa {
+                font-size: 0.7rem;
+                margin-bottom: 0px;
+            }
+
+            .f-detail {
+                font-size: 0.45rem;
+                margin-bottom: 0px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .f-rpa {
+                font-size: 13pt;
+                margin-bottom: 0px;
+            }
+
+            .f-detail {
+                font-size: 8pt;
+                margin-bottom: 0px;
+            }
+        }
     </style>
     <script src="/assets/vendor/jquery/jquery.min.js"></script>
     <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -119,38 +173,45 @@
     <header>
         <div>
             <div class="row mb-3">
-                <div class="col-xl-4 logo">
+                <div class="col-md-4 logo">
                     <img src="/assets/img/RPA.png" alt="Logo PT Rachmat Perdana Adhimetal" width="70">
                     <div style="text-align: left;display:inline-block;vertical-align: middle;color:blue">
-                        <p style="font-size: 13pt;margin-bottom:0px;">PT RACHMAT PERDANA ADHIMETAL</p>
-                        <p style="font-size: 8pt;margin-bottom:0px;">manufacturing of metal stamping and welding products</p>
+                        <p class="f-rpa">PT RACHMAT PERDANA ADHIMETAL</p>
+                        <p class="f-detail">manufacturing of metal stamping and welding products</p>
                     </div>
                 </div>
-                <div class="col-xl-4" style="display: flex; align-items: center;">
+                <div class="col-md-4" style="display: flex; align-items: center;">
                     <div class="background">
                         <h2>Digital Board Production</h2>
                     </div>
                 </div>
-                <div class="col-xl-2"></div>
-                <div class="col-xl-2" style="display: flex; align-items: center;color:black">
+                <div class="col-md-2"></div>
+                <div class="col-md-2" style="display: flex; align-items: center;color:black">
                     <div class="date-time" style="margin: 0 auto;">
-                        <p>{{date('l, d F Y')}}</p>
+                        <h4>{{date('l, d F Y')}}</h4>
                         <h3 style="font-weight: bold;" id="preview"></h3>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-5">
+                <div class="col-md-5">
                     <div class="background">
                         <h3>MESIN {{strtoupper($mesin->jenisMesin->jenis_mesin . " " . $mesin->mesin)}}</h3>
                     </div>
                 </div>
-                <div class="col-xl-5">
+                <div class="col-md-5">
                 </div>
-                <div class="col-xl-2">
+                <div class="col-md-2">
                     <div class="background">
                         <h2>{{$mesin->kode_mesin}}</h2>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <i>
+                        <h6 class="mt-2 mb-0 text-right" style="color: #737373;">Copyright from Budiwhy © 2024</h6>
+                    </i>
                 </div>
             </div>
         </div>
@@ -179,7 +240,7 @@
                                 <h2>QUALITY</h2>
                             </button>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center p-5">
                             <span onclick="toggleFullScreen()">
                                 <img src="/assets/img/icon-home.png" alt="icon home">
                             </span>
@@ -237,31 +298,37 @@
 
 
 <script>
-  // Fungsi untuk mengubah mode layar penuh
-  function toggleFullScreen() {
-    var elem = document.documentElement;
-    if (!document.fullscreenElement) {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) { /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE/Edge */
-        elem.msRequestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) { /* Firefox */
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE/Edge */
-        document.msExitFullscreen();
-      }
+    // Fungsi untuk mengubah mode layar penuh
+    function toggleFullScreen() {
+        var elem = document.documentElement;
+        if (!document.fullscreenElement) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) {
+                /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                /* Chrome, Safari and Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                /* IE/Edge */
+                document.msExitFullscreen();
+            }
+        }
     }
-  }
 </script>
 <script>
     $(function() {

@@ -117,7 +117,7 @@
                 "targets": [0, 1, 2, 3, 4], // table ke 1
             }],
             ajax: {
-                url: '{{ url("json_user") }}'
+                url: '/json_user'
             },
             "fnCreatedRow": function(row, data, index) {
                 $('td', row).eq(0).html(index + 1);
@@ -159,7 +159,7 @@
     $('.modal-footer').on('click', '.add', function() {
         $.ajax({
             type: 'POST',
-            url: '{{ url("store_user") }}',
+            url: '/store_user',
             data: {
                 '_token': "{{ csrf_token() }}",
                 'nama_user': $('#nama_user').val(),
@@ -185,7 +185,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'edit_user',
+            url: '/edit_user',
             data: {
                 '_token': "{{ csrf_token() }}",
                 'id': uid,
@@ -223,7 +223,7 @@
     $('.modal-footer').on('click', '.update', function() {
         $.ajax({
             type: 'PUT',
-            url: 'update_user/' + id,
+            url: '/update_user/' + id,
             data: {
                 '_token': "{{ csrf_token() }}",
                 'nama_user': $('#nama_user').val(),
@@ -250,7 +250,7 @@
 
             $.ajax({
                 type: 'DELETE',
-                url: 'delete_user/' + $(this).data('id'),
+                url: '/delete_user/' + $(this).data('id'),
                 data: {
                     '_token': "{{ csrf_token() }}",
                 },
