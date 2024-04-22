@@ -115,6 +115,13 @@
     <script src="/assets/js/clock.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="/assets/js/sb-admin-2.min.js"></script>
+    <script src="/assets/js/fullscreen.js"></script>
+    <script>
+        window.addEventListener("load", function() {
+            // Jalankan fungsi di sini
+            toggleFullScreen();
+        });
+    </script>
     <title>PT RACHMAT PERDANA ADHIMETAL</title>
 </head>
 
