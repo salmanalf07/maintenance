@@ -31,6 +31,9 @@ use Illuminate\Http\Request;
 
 Route::get('/', [login::class, 'index']);
 Route::get('/dashboard', [home::class, 'index']);
+Route::get('/get-image/{type}/{id}', function ($type, $id) {
+    return getImage($type, $id);
+});
 //login
 Route::post('/auth_login', [login::class, 'login']);
 Route::get('/logout', [login::class, 'logout']);
@@ -85,11 +88,12 @@ Route::post('/search_pcheck', [schedule::class, 'pcheck']);
 Route::post('/update_schedule', [schedule::class, 'update']);
 Route::put('/delete_schedule/{id}', [schedule::class, 'destroy']);
 Route::get('/print_spk/{id}', [schedule::class, 'spk']);
-//schedule
+//trouble
 Route::get('/trouble', [trouble::class, 'index']);
 Route::get('/json_trouble',  [trouble::class, 'json']);
 Route::post('/store_trouble', [trouble::class, 'store']);
 Route::post('/select_mesin', [trouble::class, 'mesin']);
+Route::get('/detail_trouble/{id}', [trouble::class, 'detail']);
 Route::put('/update_trouble/{id}', [trouble::class, 'update']);
 Route::put('/delete_trouble/{id}', [trouble::class, 'destroy']);
 //digital dashboard production

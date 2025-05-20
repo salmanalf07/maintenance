@@ -26,7 +26,7 @@
                         <th>Nama User</th>
                         <th>Nama Mesin</th>
                         <th>Judul</th>
-                        <th>Keterangan</th>
+                        <th>Gambar</th>
                         <th>Status</th>
                         <th>Aksi</th>
                         <th>Aksi</th>
@@ -41,7 +41,7 @@
                         <th>Nama User</th>
                         <th>Nama Mesin</th>
                         <th>Judul</th>
-                        <th>Keterangan</th>
+                        <th>Gambar</th>
                         <th>Status</th>
                         <th>Aksi</th>
                         <th>Aksi</th>
@@ -73,23 +73,25 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div id="message-container"></div>
+
                 <form method="post" role="form" id="form-add" enctype="multipart/form-data">
                     @csrf
                     <input type="text" id="id" hidden>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="nama_trouble">ID TROUBLE</label>
-                            <input type="text" class="form-control" name="id_trouble id=" id_trouble readonly>
+                            <input type="text" class="form-control" name="id_trouble" id="id_trouble" readonly>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="requester">NAMA REQUESTER</label>
-                            <input type="text" class="form-control" name="requester" id="requester" value="{{Session::get('name')}}" readonly>
+                            <input type="text" class="form-control" name="requester" id="requester" value="{{Session::get('nama_user')}}" readonly>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="username">TANGGAL MASALAH</label>
-                            <input class="form-control" name="datepicker1" id="datepicker1" placeholder="Tanggal Terjadi Masalah">
+                            <label for="username">TANGGAL MASALAH <span style="color: red;">*</span></label>
+                            <input class="form-control" name="dateTrouble" id="dateTrouble" placeholder="Tanggal Terjadi Masalah">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="judul">JUDUL</label>
@@ -98,26 +100,27 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="id_divisi">DIVISI</label>
-                            <select name="id_divisi" id="id_divisi" class="form-control">
-                                <option selected>Choose...</option>
+                            <label for="divisi">DIVISI</label>
+                            <select name="divisi" id="divisi" class="form-control">
+                                <option value="#" selected>Choose...</option>
                                 @foreach($divisi as $divisi)
                                 <option value="{{$divisi->id_divisi}}">{{$divisi->nama_divisi}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="id_mesin">MESIN</label>
-                            <select name="id_mesin" id="id_mesin" class="form-control">
+                            <label for="mesin">MESIN</label>
+                            <select name="mesin" id="mesin" class="form-control">
                                 <option selected>Choose...</option>
                             </select>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <label for="p_check"> KETERANGAN </label>
+                    <div class="form-row mb-2">
+                        <label for="image">Gambar / Sketch</label>
+                        <input type="file" name="image" id="image" class="form-control">
                     </div>
                     <div class="form-row">
-                        <textarea class="form-control" name="keterangan" id="keterangan" style="height:150px;border:1px solid #d1d3e2; border-radius: 5px; padding: 5px"></textarea>
+                        <textarea class="form-control" name="uraianMasalah" id="uraianMasalah" style="height:150px;border:1px solid #d1d3e2; border-radius: 5px; padding: 5px"></textarea>
                     </div>
 
                 </form>
@@ -130,11 +133,13 @@
     </div>
 </div>
 
+
+
 <script src="/assets/jquery-3.5.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <script>
-    $('#datepicker1').datepicker({
+    $('#dateTrouble').datepicker({
         uiLibrary: 'bootstrap4',
         format: 'dd/mm/yyyy',
     });
@@ -145,13 +150,13 @@
     // });
 </script>
 <script>
-    $(function() {
+    $(document).ready(function() {
         var oTable = $('#users-table').DataTable({
             processing: true,
             serverSide: true,
             "columnDefs": [{
                     "className": "text-center",
-                    "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8], // table ke 1
+                    "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, ], // table ke 1
                 },
                 {
                     targets: 2,
@@ -159,6 +164,9 @@
                         return moment(oTable).format('DD-MM-YYYY');
                     }
                 },
+            ],
+            order: [
+                [2, 'dsc']
             ],
             ajax: {
                 url: '{{ url("json_trouble") }}'
@@ -183,19 +191,17 @@
                     name: 'requester'
                 },
                 {
-                    data: 'mesin',
-                    name: 'mesin'
+                    data: 'mesin.mesin',
+                    name: 'mesin.mesin'
                 },
                 {
                     data: 'judul',
                     name: 'judul'
                 },
-
                 {
-                    data: 'keterangan',
-                    name: 'keterangan'
+                    data: 'images',
+                    name: 'images'
                 },
-
                 {
                     data: 'status',
                     name: 'status'
@@ -222,128 +228,166 @@
             oTable.columns(7).visible(false);
             oTable.columns(8).visible(false);
         };
-    });
-    //add data
-    $(document).on('click', '#add', function() {
-        $('.modal-title').text('Tambah Data');
-        $("#in").removeClass("btn btn-primary update");
-        $("#in").addClass("btn btn-primary add");
-        $('#in').text('Save');
-        document.getElementById("form-add").reset();
-        $('#update_pass').hide();
-        $('#password').show();
-        $('#myModal').modal('show');
-    });
-    $(document).on('click', '#close', function() {
-        $('#p_check').remove();
-        document.getElementById("form-add").reset();
-    });
 
-    $('.modal-footer').on('click', '.add', function() {
-        var form = document.getElementById("form-add");
-        var fd = new FormData(form);
-        $.ajax({
-            type: 'POST',
-            url: '{{ url("store_trouble") }}',
-            data: fd,
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                document.getElementById("form-add").reset();
-                $('#myModal').modal('hide');
-                $('#users-table').DataTable().ajax.reload();
-
-            },
+        //add data
+        $(document).on('click', '#add', function() {
+            $('.modal-title').text('Tambah Data');
+            $("#in").removeClass("btn btn-primary update");
+            $("#in").addClass("btn btn-primary add");
+            $('#in').text('Save');
+            document.getElementById("form-add").reset();
+            $('#update_pass').hide();
+            $('#password').show();
+            $('#in').attr('disabled', false);
+            $('#myModal').modal('show');
         });
-    });
-    //end add data
-    //edit progress
-    $(document).on('change', '#hak_akses', function(e) {
-        e.preventDefault();
-        let str = $(this).val();
-        const myArr = str.split("-");
-        //console.log(myArr[1])
-        $.ajax({
-            type: 'PUT',
-            url: 'update_trouble/' + myArr[0],
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'id': myArr[0],
-                'status': myArr[1],
-
-            },
-            success: function(data) {
-                $('#users-table').DataTable().ajax.reload();
-
-            },
+        $(document).on('click', '#close', function() {
+            $('#p_check').remove();
+            document.getElementById("form-add").reset();
         });
-    });
-    //delete data
-    $(document).on('click', '#delete', function(e) {
-        e.preventDefault();
-        if (confirm('Yakin akan menghapus data ini?')) {
-            // alert("Thank you for subscribing!" + $(this).data('id') );
 
+        $('.modal-footer').on('click', '.add', function() {
+            var form = document.getElementById("form-add");
+            var fd = new FormData(form);
             $.ajax({
-                type: 'PUT',
-                url: 'delete_trouble/' + $(this).data('id'),
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                },
+                type: 'POST',
+                url: '/store_trouble',
+                data: fd,
+                processData: false,
+                contentType: false,
                 success: function(data) {
-                    alert("Data Berhasil Dihapus");
+                    document.getElementById("form-add").reset();
+                    $('#myModal').modal('hide');
                     $('#users-table').DataTable().ajax.reload();
+
+                },
+                error: function(xhr) {
+                    let errors = xhr.responseJSON.errors || {
+                        message: 'Something went wrong.'
+                    };
+                    let errorMessage = '';
+                    $.each(errors, function(key, value) {
+                        errorMessage += '<div class="alert alert-danger">' + value[0] + '</div>';
+                    });
+                    $("#message-container").html(errorMessage);
                 }
             });
-
-        } else {
-            return false;
-        }
-    });
-    //tampilin mesin
-    $(document).on('change', '#id_divisi', function() {
-        $.ajax({
-            type: 'POST',
-            url: 'select_mesin',
-            data: {
-                '_token': "{{ csrf_token() }}",
-                'id_divisi': $('#id_divisi').val(),
-
-            },
-            success: function(data) {
-                $('#id_mesin').empty();
-                $('#id_mesin').append('<option value="">Choose...</option>');
-                $.each(data, function(i) {
-                    $('#id_mesin').append('<option value="' + data[i].id_mesin + '">' + data[i].mesin + '-' + data[i].jenis_mesin + '</option>');
-                })
-
-            },
         });
+        //end add data
+        $(document).on('click', '#detail', function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            $.ajax({
+                type: 'GET',
+                url: '/detail_trouble/' + id,
+                success: function(data) {
+                    $('#id_trouble').val(data.id_trouble);
+                    $('#requester').val(data.requester);
+                    $('#dateTrouble').val(moment(data.tgl_perbaikan).format('DD/MM/YYYY'));
+                    $('#judul').val(data.judul);
+                    $('#divisi').val(data.id_divisi).trigger('change');
+                    $(document).ajaxComplete(function(event, xhr, settings) {
+                        if ($('#mesin option').length > 1) {
+                            $('#mesin').val(data.id_mesin).trigger('change');
+                        }
+                    });
+                    $('#uraianMasalah').val(data.keterangan);
+                    $('#myModal').modal('show');
+                    $('#in').attr('disabled', true);
+                },
+                error: function(xhr) {
+                    alert('Gagal memuat data');
+                }
+            });
+        });
+        //edit progress
+        $(document).on('change', '#hak_akses', function(e) {
+            e.preventDefault();
+            let str = $(this).val();
+            const myArr = str.split("-");
+            //console.log(myArr[1])
+            $.ajax({
+                type: 'PUT',
+                url: 'update_trouble/' + myArr[0],
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': myArr[0],
+                    'status': myArr[1],
+
+                },
+                success: function(data) {
+                    $('#users-table').DataTable().ajax.reload();
+
+                },
+            });
+        });
+        //delete data
+        $(document).on('click', '#delete', function(e) {
+            e.preventDefault();
+            if (confirm('Yakin akan menghapus data ini?')) {
+                // alert("Thank you for subscribing!" + $(this).data('id') );
+
+                $.ajax({
+                    type: 'PUT',
+                    url: 'delete_trouble/' + $(this).data('id'),
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                    },
+                    success: function(data) {
+                        alert("Data Berhasil Dihapus");
+                        $('#users-table').DataTable().ajax.reload();
+                    }
+                });
+
+            } else {
+                return false;
+            }
+        });
+        //tampilin mesin
+        $('#divisi').on('change', function() {
+            $.ajax({
+                type: 'POST',
+                url: '/select_mesin',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id_divisi': $('#divisi').val(),
+
+                },
+                success: function(data) {
+                    $('#mesin').empty();
+                    $('#mesin').append('<option value="">Choose...</option>');
+                    $.each(data, function(i) {
+                        $('#mesin').append('<option value="' + data[i].id_mesin + '">' + data[i].mesin + '-' + data[i].jenis_mesin + '</option>');
+                    })
+
+                },
+            });
+        });
+        // $(document).on('change', '#id_mesin', function() {
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: 'search_pcheck',
+        //         data: {
+        //             '_token': "{{ csrf_token() }}",
+        //             'id_mesin': $('#id_mesin').val(),
+
+        //         },
+        //         success: function(data) {
+        //             $('#p_check').remove();
+        //             $('#t_check').append('<table id="p_check"></table>')
+        //             $.each(data, function(i) {
+        //                 $('#p_check').append(
+        //                     '<tr><td>' +
+        //                     '<input type="checkbox" name="p_check[]" value="' + data[i].id_check + '"> &nbsp ' + data[i].point_check +
+        //                     '</td></tr>'
+        //                 );
+
+        //             })
+
+        //         },
+        //     });
+        // });
     });
-    // $(document).on('change', '#id_mesin', function() {
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: 'search_pcheck',
-    //         data: {
-    //             '_token': "{{ csrf_token() }}",
-    //             'id_mesin': $('#id_mesin').val(),
-
-    //         },
-    //         success: function(data) {
-    //             $('#p_check').remove();
-    //             $('#t_check').append('<table id="p_check"></table>')
-    //             $.each(data, function(i) {
-    //                 $('#p_check').append(
-    //                     '<tr><td>' +
-    //                     '<input type="checkbox" name="p_check[]" value="' + data[i].id_check + '"> &nbsp ' + data[i].point_check +
-    //                     '</td></tr>'
-    //                 );
-
-    //             })
-
-    //         },
-    //     });
-    // });
 </script>
 
 @endsection

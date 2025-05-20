@@ -20,6 +20,26 @@
     <link href="/assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script>
+        function getImage($type, $id) {
+            $.ajax({
+                url: "/get-image/" + $type + '/' + $id, // URL menuju controller Laravel
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    if (response.status === "success") {
+                        $("#modalImage").attr("src", response.image_url);
+                        $("#imageModal").modal("show");
+                    } else {
+                        alert("Gambar tidak ditemukan!");
+                    }
+                },
+                error: function() {
+                    alert("Terjadi kesalahan saat mengambil gambar!");
+                }
+            });
+        }
+    </script>
 
 </head>
 
@@ -245,7 +265,7 @@
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Session::get('name')}}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Session::get('nama_user')}}</span>
                                 <img class="img-profile rounded-circle" src="/assets/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -268,6 +288,22 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">{{$judul}}</h1>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img id="modalImage" src="" class="img-fluid" alt="Preview">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- isi web -->
                     @yield('konten')
@@ -342,6 +378,8 @@
     <!-- Page level custom scripts -->
     <script src="/assets/js/demo/datatables-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
 
 </body>
 

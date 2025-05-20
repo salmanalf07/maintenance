@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User as ModelsUser;
 use Illuminate\Http\Request;
-use App\models\m_user;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -40,7 +40,7 @@ class user extends Controller
 
     public function store(Request $request)
     {
-        $post = new m_user();
+        $post = new ModelsUser();
         $post->nama_user = $request->nama_user;
         $post->name = $request->username;
         $post->password = bcrypt($request->password);
@@ -64,7 +64,7 @@ class user extends Controller
     public function update(Request $request, $id)
     {
 
-        $post = m_user::findOrFail($id);
+        $post = ModelsUser::findOrFail($id);
         $post->nama_user = $request->nama_user;
         $post->name = $request->username;
         if ($request->password) {
@@ -79,7 +79,7 @@ class user extends Controller
     }
     public function destroy($id)
     {
-        $post = m_user::findOrFail($id);
+        $post = ModelsUser::findOrFail($id);
         $post->delete();
 
         return response()->json($post);
